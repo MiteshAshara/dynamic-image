@@ -10,14 +10,34 @@
     <style>
         .placeholder-box {
             border: 4px solid darkred;
-            /* border-radius: 10px; */
             position: absolute;
             transform: translate(-50%, -50%);
             width: 25%;
             aspect-ratio: 9/13;
+            /* Maintain the box's aspect ratio */
             overflow: hidden;
             top: 75%;
             left: 20%;
+        }
+
+        .placeholder-text {
+            position: absolute;
+            top: calc(74% + 15%);
+            /* Position text below the placeholder box */
+            left: 20%;
+            font-size: 2rem;
+            font-weight: bold;
+            color: darkred;
+            text-align: center;
+
+            /* Optional: Ensure better visibility */
+            padding: 0.2rem 0.5rem;
+            /* Add padding around the text */
+            border-radius: 5px;
+            /* Slightly rounded corners for the text background */
+            width: 25%;
+            transform: translateX(-50%);
+            /* Center align the text */
         }
 
         .placeholder-box img {
@@ -42,7 +62,7 @@
                 height: auto;
                 /* Adjust height dynamically */
                 top: 75%;
-                left: 20%; 
+                left: 20%;
                 /* Center horizontally */
                 transform: translate(-50%, -50%);
                 /* Ensure proper centering */
@@ -57,6 +77,12 @@
             <input type="file" id="imageInput" class="form-control w-75 w-md-50 mx-auto" accept="image/*">
         </div>
 
+        <!-- Input for dynamic "Hello" text -->
+        <div class="mb-4">
+            <input type="text" id="helloTextInput" class="form-control w-75 w-md-50 mx-auto"
+                placeholder="Enter your message here">
+        </div>
+
         <div class="mt-3">
             <button id="submitButton" class="btn btn-primary">Submit</button>
         </div>
@@ -65,7 +91,10 @@
             <img src="./Untitled design (1).png" alt="Base Image" class="img-fluid rounded shadow-lg" id="baseImage">
 
             <div class="container">
+                <!-- Placeholder box -->
                 <div class="placeholder-box" id="placeholderBox"></div>
+                <!-- Dynamic Hello text outside the placeholder box, positioned below -->
+                <h3 class="placeholder-text" id="dynamicHelloText">Hello</h3>
             </div>
         </div>
     </div>
@@ -79,6 +108,8 @@
         const imageSection = document.getElementById('imageSection');
         const placeholderBox = document.getElementById('placeholderBox');
         const baseImage = document.getElementById('baseImage');
+        const helloTextInput = document.getElementById('helloTextInput');
+        const dynamicHelloText = document.getElementById('dynamicHelloText');
 
         let uploadedImage = null;
 
@@ -97,6 +128,11 @@
 
         // Handle submit button click
         submitButton.addEventListener('click', () => {
+            const userMessage = helloTextInput.value || "Hello"; // Default to "Hello" if no message is entered
+
+            // Update the dynamic text
+            dynamicHelloText.textContent = userMessage;
+
             if (uploadedImage) {
                 placeholderBox.innerHTML = '';
                 placeholderBox.appendChild(uploadedImage);
@@ -152,6 +188,35 @@
                     drawHeight
                 );
             }
+
+            // Draw the dynamic text (Hello text)
+            const text = dynamicHelloText.textContent;
+
+            // Set font style for text
+            ctx.font = 'bold 90px Arial'; // Adjust font size as needed
+            ctx.fillStyle = 'darkred'; // Text color
+            ctx.textAlign = 'left'; // Align text to the left
+
+            // Calculate the position of the placeholder box relative to the base image
+            const placeholderRect = placeholderBox.getBoundingClientRect();
+            const baseRect = baseImage.getBoundingClientRect();
+
+            // Separate margins for text placement
+            const xMargin = 160; // Horizontal margin
+            const yMargin = 150; // Vertical margin
+
+            // Calculate the left position for the text (textX) with xMargin
+            const textX = ((placeholderRect.left - baseRect.left) / baseRect.width) * canvas.width + xMargin;
+
+            // Calculate the bottom position of the placeholder box
+            const placeholderBottom = (placeholderRect.bottom - baseRect.top) / baseRect.height;
+
+            // Calculate the vertical position for the text (textY) with yMargin
+            const textY = (placeholderBottom * canvas.height) + yMargin;
+
+            // Draw the text on the canvas
+            ctx.fillText(dynamicHelloText.textContent, textX, textY);
+
 
             // Convert canvas to JPEG and download
             const imgData = canvas.toDataURL('image/jpeg', 1.0);
