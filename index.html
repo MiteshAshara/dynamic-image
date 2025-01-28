@@ -128,7 +128,7 @@
 
         // Handle submit button click
         submitButton.addEventListener('click', () => {
-            const userMessage = helloTextInput.value || "Hello"; // Default to "Hello" if no message is entered
+            const userMessage = helloTextInput.value || ""; // Default to "Hello" if no message is entered
 
             // Update the dynamic text
             dynamicHelloText.textContent = userMessage;
