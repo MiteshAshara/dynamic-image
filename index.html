@@ -67,6 +67,26 @@
                 transform: translate(-50%, -50%);
                 /* Ensure proper centering */
             }
+
+            .placeholder-text {
+                position: absolute;
+                top: calc(74% + 15%);
+                /* Position text below the placeholder box */
+                left: 20%;
+                font-size: 10px;
+                font-weight: bold;
+                color: darkred;
+                text-align: center;
+
+                /* Optional: Ensure better visibility */
+                padding: 0.2rem 0.5rem;
+                /* Add padding around the text */
+                border-radius: 5px;
+                /* Slightly rounded corners for the text background */
+                width: 25%;
+                transform: translateX(-50%);
+                /* Center align the text */
+            }
         }
     </style>
 </head>
@@ -94,7 +114,7 @@
                 <!-- Placeholder box -->
                 <div class="placeholder-box" id="placeholderBox"></div>
                 <!-- Dynamic Hello text outside the placeholder box, positioned below -->
-                <h3 class="placeholder-text" id="dynamicHelloText"></h3>
+                <h3 class="placeholder-text" id="dynamicHelloText">atmiya rajkot</h3>
             </div>
         </div>
     </div>
