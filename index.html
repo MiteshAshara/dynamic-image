@@ -9,12 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .placeholder-box {
-            border: 4px solid darkred;
+            border: 3px solid darkred;
             position: absolute;
             transform: translate(-50%, -50%);
             width: 25%;
             aspect-ratio: 9/13;
-            /* Maintain the box's aspect ratio */
             overflow: hidden;
             top: 75%;
             left: 20%;
@@ -23,21 +22,15 @@
         .placeholder-text {
             position: absolute;
             top: calc(74% + 15%);
-            /* Position text below the placeholder box */
             left: 20%;
             font-size: 2rem;
             font-weight: bold;
             color: darkred;
             text-align: center;
-
-            /* Optional: Ensure better visibility */
             padding: 0.2rem 0.5rem;
-            /* Add padding around the text */
             border-radius: 5px;
-            /* Slightly rounded corners for the text background */
             width: 25%;
             transform: translateX(-50%);
-            /* Center align the text */
         }
 
         .placeholder-box img {
@@ -58,34 +51,24 @@
         @media (max-width: 767px) {
             .placeholder-box {
                 width: 25%;
-                /* Increase width for better visibility on smaller screens */
                 height: auto;
-                /* Adjust height dynamically */
                 top: 75%;
                 left: 20%;
-                /* Center horizontally */
                 transform: translate(-50%, -50%);
-                /* Ensure proper centering */
             }
 
             .placeholder-text {
                 position: absolute;
                 top: calc(74% + 15%);
-                /* Position text below the placeholder box */
                 left: 20%;
                 font-size: 10px;
                 font-weight: bold;
                 color: darkred;
                 text-align: center;
-
-                /* Optional: Ensure better visibility */
                 padding: 0.2rem 0.5rem;
-                /* Add padding around the text */
                 border-radius: 5px;
-                /* Slightly rounded corners for the text background */
                 width: 25%;
                 transform: translateX(-50%);
-                /* Center align the text */
             }
         }
     </style>
@@ -97,29 +80,26 @@
             <input type="file" id="imageInput" class="form-control w-75 w-md-50 mx-auto" accept="image/*">
         </div>
 
-        <!-- Input for dynamic "Hello" text -->
         <div class="mb-4">
             <input type="text" id="helloTextInput" class="form-control w-75 w-md-50 mx-auto"
                 placeholder="Enter your message here">
         </div>
 
         <div class="mt-3">
-            <button id="submitButton" class="btn btn-primary">Submit</button>
+            <button id="submitButton" class="btn btn-dark">Submit</button>
         </div>
 
         <div class="position-relative d-inline-block mt-4" style="display: none;" id="imageSection">
-            <img src="./Untitled design (1).png" alt="Base Image" class="img-fluid rounded shadow-lg" id="baseImage">
+            <img src="./Untitled design (2).png" alt="Base Image" class="img-fluid rounded shadow-lg" id="baseImage">
 
             <div class="container">
-                <!-- Placeholder box -->
                 <div class="placeholder-box" id="placeholderBox"></div>
-                <!-- Dynamic Hello text outside the placeholder box, positioned below -->
                 <h3 class="placeholder-text" id="dynamicHelloText"></h3>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -133,7 +113,7 @@
 
         let uploadedImage = null;
 
-        // Handle image input
+     
         imageInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -146,11 +126,9 @@
             }
         });
 
-        // Handle submit button click
         submitButton.addEventListener('click', () => {
-            const userMessage = helloTextInput.value || ""; // Default to "Hello" if no message is entered
+            const userMessage = helloTextInput.value || "";
 
-            // Update the dynamic text
             dynamicHelloText.textContent = userMessage;
 
             if (uploadedImage) {
@@ -173,11 +151,8 @@
 
             canvas.width = baseImage.naturalWidth;
             canvas.height = baseImage.naturalHeight;
-
-            // Draw the base image
             ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
 
-            // Draw the uploaded placeholder image with a border
             const placeholderImage = placeholderBox.querySelector('img');
             if (placeholderImage) {
                 const placeholderRect = placeholderBox.getBoundingClientRect();
@@ -186,20 +161,17 @@
                 const xOffset = placeholderRect.left - baseRect.left;
                 const yOffset = placeholderRect.top - baseRect.top;
 
-                const borderWidth = 4; // Border width in pixels
+                const borderWidth = 3; 
 
-                // Calculate dimensions and draw the border
                 const drawX = (xOffset / baseRect.width) * canvas.width;
                 const drawY = (yOffset / baseRect.height) * canvas.height;
                 const drawWidth = (placeholderRect.width / baseRect.width) * canvas.width;
                 const drawHeight = (placeholderRect.height / baseRect.height) * canvas.height;
 
-                // Draw the border (dark red)
                 ctx.strokeStyle = 'darkred';
-                ctx.lineWidth = borderWidth * (canvas.width / baseRect.width); // Scale the border width
+                ctx.lineWidth = borderWidth * (canvas.width / baseRect.width); 
                 ctx.strokeRect(drawX, drawY, drawWidth, drawHeight);
 
-                // Draw the image inside the bordered box
                 ctx.drawImage(
                     placeholderImage,
                     drawX,
@@ -209,40 +181,30 @@
                 );
             }
 
-            // Draw the dynamic text (Hello text)
             const text = dynamicHelloText.textContent;
 
-            // Set font style for text
-            ctx.font = 'bold 90px Arial'; // Adjust font size as needed
-            ctx.fillStyle = 'darkred'; // Text color
-            ctx.textAlign = 'left'; // Align text to the left
+            ctx.font = 'bold 55px Arial'; 
+            ctx.fillStyle = 'darkred'; 
+            ctx.textAlign = 'left';
 
-            // Calculate the position of the placeholder box relative to the base image
             const placeholderRect = placeholderBox.getBoundingClientRect();
             const baseRect = baseImage.getBoundingClientRect();
 
-            // Separate margins for text placement
-            const xMargin = 160; // Horizontal margin
-            const yMargin = 150; // Vertical margin
+            const xMargin = 80; 
+            const yMargin = 75;
 
-            // Calculate the left position for the text (textX) with xMargin
             const textX = ((placeholderRect.left - baseRect.left) / baseRect.width) * canvas.width + xMargin;
 
-            // Calculate the bottom position of the placeholder box
             const placeholderBottom = (placeholderRect.bottom - baseRect.top) / baseRect.height;
 
-            // Calculate the vertical position for the text (textY) with yMargin
             const textY = (placeholderBottom * canvas.height) + yMargin;
 
-            // Draw the text on the canvas
             ctx.fillText(dynamicHelloText.textContent, textX, textY);
 
-
-            // Convert canvas to JPEG and download
             const imgData = canvas.toDataURL('image/jpeg', 1.0);
             const link = document.createElement('a');
             link.href = imgData;
-            link.download = 'image_with_placeholder.jpg';
+            link.download = 'GTF-Blood-Donation.jpg';
             link.click();
         }
     </script>
